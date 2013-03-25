@@ -1,5 +1,4 @@
-
-
+James Collins -- Troy Beauparlant -- Brandon DiGiulio -- Nickietha Phinn
 
 Use Case:
 	Access, Add and Save transcripts via software
