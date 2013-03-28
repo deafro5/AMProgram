@@ -6,14 +6,14 @@ import java.util.*;
 public class FileReader 
 {
 	FileReader(){
-		
+		relation = "C:\\Users\\Troy\\Desktop\\New folder";
 	}
 	
 	/*updateDatabase is an administrative accessed method. The administrator will use a file browser from the GUI
 	 * to locate a CSV file likely generated from eCampus. When the user finishes selecting a file
 	 * the file is sent here, where the reader will take the input, and then open an output
 	 * to overwrite a current file in the database*/
-	private void updateDatabase(String aFileName){
+	public void updateDatabase(String aFileName){
 		//open reader
 		//cut extraneous data
 		//output to database file
@@ -24,23 +24,22 @@ public class FileReader
 	 * while they are assembling their transcript. The results will also be used
 	 * by the CompareEngine when it makes recommendations for the user
 	 * The method is given a list of catalogs needed, and returns an array of lists*/
-	private String[][] fetchCatalog(String[] fields) throws IOException{
+	public String[][] fetchCatalog(String[] fields) throws IOException{
 		
 		String[][] catalogs = new String[fields.length][]; 
 	    Scanner scanner;
-	    String relation;
 	    int sizeOfFile;
 		
 		for(int i=0; i<fields.length; i++){
-			relation = fields[i]; //relation = C:\pathToDatabaseFolder\File, File determined by the value at fields[i]
+			relation = (new StringBuilder(relation)).append("\\").append(fields[i]).append(".txt").toString(); //relation = C:\pathToDatabaseFolder\File, File determined by the value at fields[i]
 			scanner = new Scanner(new FileInputStream(relation)); //create a file reader targeting the ith catalog we need
 			
 			sizeOfFile = lengthOfTask(relation);
 			catalogs[i] = new String[sizeOfFile];
 			for(int j = 0; j<sizeOfFile; j++){
-				catalogs[i][j] = (new StringBuilder("test:")).append(scanner.nextLine()).append(NL).toString();
+				catalogs[i][j] = (new StringBuilder("")).append(scanner.nextLine()).append(NL).toString();
 				/*the above line will need tweaking once the data format is decided. as of now each line of the
-				 * array will store the data: "test: <original data from database>" */
+				 * array will store the data: "<original data from database>" */
 				//each "i" represents a catalog, and each "j" represents a line in the ith catalog
 			}
 			scanner.close(); //unlink the scanner for this catalog before moving onto the next
@@ -55,29 +54,76 @@ public class FileReader
 	 * in order to generate a list of requirements and how to satisfy those requirement. 
 	 * In the returned value, an array represents a requirement, and each element will contain a class
 	 * ID which satisfies it*/
-	private int[][] fetchReqs(String degree){
-		//access database file for degree
-		//for each line of file generate an array of class ID's
+	public int[][] fetchReqs(String degree)throws IOException{
+		Scanner scanner;
+		int numOfReqs;
+		
+		relation = (new StringBuilder(relation)).append("\\").append(degree).append(".txt").toString(); //relation = C:\pathToDatabaseFolder\File
+		scanner = new Scanner(new FileInputStream(relation)); //create a file reader 
+			
+		numOfReqs = lengthOfTask(relation);
+		int[][] reqs = new int[numOfReqs][];
+		
+		for(int i = 0; i<numOfReqs; i++){
+			reqs[i] = new int[LengthOfLine(relation, i)];
+
+			for(int j = 0; j < reqs[i].length; j++){
+				StringBuilder newLine = new StringBuilder("");
+				newLine.append(scanner.next(","));
+				reqs[i][j] = Integer.parseInt(newLine.toString());
+				/*This reader is similar to the "fetchCatalogs" reader, but differs in that
+				 * instead of a catalog, the outer loop represents a requirement. each item of the inner
+				 * loop represents a class that fulfills that requirement.
+				 * This will need to be tweaked when database format is finalized, as currently
+				 * the first element is always the requirement ID, which may go unused later
+				 */
+			}
+			
+		}
+		scanner.close(); //unlink the scanner for this file
+				
+		return reqs;
 	}
 
 	
 	/*lengthOftask is used by the other methods to assess how many lines are in the file they will be
 	 * fetching data from, so that they will be able to properly initialize array sizes where
 	 * they will place that data*/
-    public int lengthOfTask(String relation)
+    private int lengthOfTask(String relation)
             throws FileNotFoundException
         {
-            int tasklength = 0;
+            int taskLength = 0;
             Scanner lengthTest;
             for(lengthTest = new Scanner(new FileInputStream(relation)); lengthTest.hasNextLine();)
             {
                 lengthTest.nextLine();
-                tasklength++;
+                taskLength++;
             }
 
             lengthTest.close();
-            return tasklength;
+            return taskLength;
+        }
+    
+    private int LengthOfLine(String Relation, int lineNum)
+    		throws FileNotFoundException
+    {
+    	int taskLength = 0;
+        Scanner lengthTest;
+       
+        lengthTest = new Scanner(new FileInputStream(relation));
+        for(int i = 0; i < lineNum; i++){
+        	lengthTest.nextLine();
+        }
+        while(lengthTest.hasNext(",")){ //This is currently a source of issue. failing to recognize ","
+        	lengthTest.next(",");		//this failure causes method to return line size of 0. no data copied
+        	taskLength++;
         }
 
+
+        lengthTest.close();
+        return taskLength;
+    }
+
 	private static final String NL = System.getProperty("line.separator");
+	private String relation;
 }
