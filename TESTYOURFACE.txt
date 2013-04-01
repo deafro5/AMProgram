@@ -1,0 +1,76 @@
+James Collins -- Troy Beauparlant -- Brandon DiGiulio -- Nickietha Phinn
+
+Use Case:
+	Access, Add and Save transcripts via software
+	
+Iteration:
+	1 Last Modification February 22, 2013
+	
+Primary Actor:
+	Student
+	
+Goal in Context:
+	To Save a document that contains all the classes in my transcript. File can be reused upon login.
+	
+Preconditions:
+	Appropriate User ID and Password must be created. Student must know their classes
+	
+Trigger:
+	Student wishes to add classes to their document to be used for future scanning.
+	
+Scenario:
+	The student launches the Academic Major Program
+	
+	The Student enters His/Her ID
+	
+	The Student enters His/Her Password
+	
+	The System Displays all function buttons, dropdown menus, and viewing windows
+	
+	Student selects Class Subject Prefix via dropdown menu (CSC,MTH,WRT...)
+	
+	Student selects Class # via another dropdown menu (101,110, 243....)
+	
+	Student then selects the "Add" button from the function buttons
+	
+	Screen now displays the Course name, Prefix, and number in a seperate box in the program
+	
+	Steps 5-6-7-8 are repeated until the Student adds all classes
+	
+	Student then selects the "Save" button from the function buttons.
+	
+	The file is then saved into the programs directory and can also be saved to the users "documents" folder for personal use
+	
+	
+Exceptions:
+	User ID and/or password invalid or unrecognized --
+		See Use Case Validate ID and Passowrds
+		
+	Save file already exists for user --
+		See Use Case Load Saved Classes
+		
+	User adds a wrong class to his class list --
+		See Use Case Deleting A Class
+		
+	Attempt to save with no classes --
+		See Use Case Validate Class List
+		
+Priority: High Priority, Basic functions for the entire software
+
+When Available:
+	Second Increment
+	
+Frequency of Use:
+	High Frequency
+	
+Channel to actor:
+	Via computer with installed software
+	
+Secondary Actors:
+	N/A
+	
+Channels to Secondary Actor:
+	N/A
+	
+Open Issues:
+	
