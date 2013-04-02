@@ -130,7 +130,9 @@ public class Student extends JFrame implements ActionListener {
 		}else if(e.getActionCommand() == removeButton.getText()){
 			System.out.println("Remove button Pressed");
 			int s = studentClasses.getSelectedIndex();
-			transcript.remove(s);
+			if(s!=-1){
+			transcript.remove(s);	
+			}
 		}else if(e.getActionCommand() == saveButton.getText()){
 			System.out.println("Save button Pressed");
 			
