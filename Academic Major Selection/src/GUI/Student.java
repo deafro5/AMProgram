@@ -1,10 +1,11 @@
-package GUI;
 
+package GUI;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -20,6 +21,9 @@ public class Student extends JFrame implements ActionListener {
 	private JPanel selectPanel,functionPanel,classButtons;
 	private JComboBox subjectBox,numberBox;
 	private JList studentClasses;
+	private DefaultListModel transcript;
+	
+	
 	
 	public Student(){
 		//Window Attributes
@@ -63,13 +67,15 @@ public class Student extends JFrame implements ActionListener {
 		
 		//add our buttons to main panel
 		classButtons.add(buttons,BorderLayout.CENTER);
-		
+	
 		//demo list for our list box
-		String[] testList = {"CSC 110: Intro to Computer Programming","CSC305: Intro to Functional Programming"};
+		transcript = new DefaultListModel();
+		transcript.addElement("CSC305");
+		transcript.addElement("MTH212");
 		
 		//Create panels for our output list
 		//output list attributes
-		studentClasses = new JList(testList);
+		studentClasses = new JList(transcript);
 		studentClasses.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		studentClasses.setLayoutOrientation(JList.VERTICAL);
 		studentClasses.setVisibleRowCount(-1);
@@ -119,10 +125,12 @@ public class Student extends JFrame implements ActionListener {
 		//What button is pressed?
 		if(e.getActionCommand() == addButton.getText()){
 			System.out.println("Add button Pressed");
+			transcript.addElement(new StringBuilder("").append(subjectBox.getSelectedItem()).append(numberBox.getSelectedItem()));
 			
 		}else if(e.getActionCommand() == removeButton.getText()){
 			System.out.println("Remove button Pressed");
-			
+			int s = studentClasses.getSelectedIndex();
+			transcript.remove(s);
 		}else if(e.getActionCommand() == saveButton.getText()){
 			System.out.println("Save button Pressed");
 			
