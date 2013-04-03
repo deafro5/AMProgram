@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 
 import javax.swing.JButton;
@@ -124,7 +125,15 @@ public class Login extends JFrame implements ActionListener{
 	 */
 	public boolean hashChecks(String someHashName, String someHashPass)
 	{
-		String[][] loginInfoToCompare = loginReader.fetchLoginInfo();//Fetch the 2D array database, currently getting error?
+		//Need to set this to null and surround it with try catch block so it doesn't get an error.
+		String[][] loginInfoToCompare = null;
+		try {
+			loginInfoToCompare = loginReader.fetchLoginInfo(); //Fetch the 2D array database
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		int loginFileSize = loginReader.fetchLoginInfoSize();//Fetch the size of the database
 		boolean userFound = false;
 		
@@ -133,11 +142,13 @@ public class Login extends JFrame implements ActionListener{
 			int j=0;
 			
 			//Checks to see if this is the right user
-			if(loginInfoToCompare[i][j] == someHashName){ 
+			//Need to use the compareTo method which returns -1 if false
+			if(loginInfoToCompare[i][j].compareTo(someHashName) >-1){ 
 				userFound = true;	//User exists in the database so change boolean
 				System.out.println("Username Exists. Checking password...");
 				//If correct user, compare the passwords (the second element of 'j': [j+1] )
-				if(loginInfoToCompare[i][j+1] == someHashPass){ 
+				//Need to use the compareTo method which returns -1 if false
+				if(loginInfoToCompare[i][j+1].compareTo(someHashPass) >-1){ 
 					System.out.println("Passwords matched");//Found a match
 					return true;	//Return true because everything is a match
 				}
