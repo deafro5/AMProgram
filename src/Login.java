@@ -24,6 +24,7 @@ public class Login extends JFrame implements ActionListener{
 	private JTextField nameBox;
 	private JPasswordField passwordBox;
 	private JButton loginButton, newUserButton;
+	private FileReader loginReader;
 	
 	public Login(){
 		//set Attributes for our window
@@ -82,14 +83,28 @@ public class Login extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "Login"){
-		System.out.println("Username: " + nameBox.getText());
-		
-		String temp = "";
-		//stores our char[] password into a string
-		for(int i = 0;i<passwordBox.getPassword().length;i++){
-			temp = temp + passwordBox.getPassword()[i];
-		}
-		System.out.println("Password: " + temp);
+			String userNameEntered = nameBox.getText();
+			String passwordEntered;
+			String userNameHashed;
+			String passwordHashed;
+			System.out.println("Username: " + userNameEntered);
+			
+			String temp = "";
+			//stores our char[] password into a string
+			for(int i = 0;i<passwordBox.getPassword().length;i++){
+				temp = temp + passwordBox.getPassword()[i];
+			}
+			
+			passwordEntered = temp;
+			System.out.println("Password: " + passwordEntered);
+			
+			userNameHashed = Integer.toString(userNameEntered.hashCode());
+			passwordHashed = Integer.toString(passwordEntered.hashCode());
+			
+			//The method below is called to check to see if the username and password hashes match any in the database
+			//hashChecks(userNameHashed, passwordHashed);
+			
+			
 		}else if(e.getActionCommand() == "New User"){
 			System.out.println("New User Button Pressed");
 		}
@@ -98,5 +113,48 @@ public class Login extends JFrame implements ActionListener{
 		
 		//if expression validating hashes, if match, login.
 		
+	}
+	
+	/*
+	 * This method takes the hashed username and password as parameters.
+	 * It then calls the FileReader's fetchLoginInfo method which will
+	 * return a 2D array with all hashed-usernames and passwords.
+	 * It will compare the hashes from the login with the database to try
+	 * and find a match.
+	 */
+	public boolean hashChecks(String someHashName, String someHashPass)
+	{
+		String[][] loginInfoToCompare = loginReader.fetchLoginInfo();//Fetch the 2D array database, currently getting error?
+		int loginFileSize = loginReader.fetchLoginInfoSize();//Fetch the size of the database
+		boolean userFound = false;
+		
+		//Each 'i' represents a new student.  Their user-hash is stored in the first element of 'j' and the password in the second element.
+		for(int i=0; i<loginFileSize; i++){
+			int j=0;
+			
+			//Checks to see if this is the right user
+			if(loginInfoToCompare[i][j] == someHashName){ 
+				userFound = true;	//User exists in the database so change boolean
+				System.out.println("Username Exists. Checking password...");
+				//If correct user, compare the passwords (the second element of 'j': [j+1] )
+				if(loginInfoToCompare[i][j+1] == someHashPass){ 
+					System.out.println("Passwords matched");//Found a match
+					return true;	//Return true because everything is a match
+				}
+				else{
+					System.out.println("Passwords not a match");//Not a match
+					return false; 	//Return false because it was not a match and they need to re-enter password
+				}
+			}
+			//If the user-password combo was not matched, 'i' will increment to check the next user in the database.
+		}
+		
+		//Checks to see if the user was found (i.e. the user is in the database)
+		if(userFound==false){
+			System.out.println("User not in the database");
+			return false;
+		}
+		
+		return true; //temporary until all cases are handled
 	}
 }
