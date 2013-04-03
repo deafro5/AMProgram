@@ -124,28 +124,42 @@ public class FileReader
         return taskLength;
     }
     
-public String[][] fetchLoginInfo() throws IOException{
-		
-		String relation2 = "C:\\Users\\Troy\\Desktop\\New folder\\loginNamePass.txt";
-		Scanner scanner = new Scanner(new FileInputStream(relation2)); //create a file reader targeting the ith catalog we need
+    /*
+     * This method fetches a 2D array of the login database information.
+     * Each 'i' is a new student.
+     * The first element of 'j' is the hashed-username.
+     * The second element of 'j' is the hashed-password.
+     */
+	public String[][] fetchLoginInfo() throws IOException{
+			
+		String relation2 = "C:\\Users\\Troy\\Desktop\\New folder\\loginNamePass.txt"; //current directory, will be changed
+		Scanner scanner = new Scanner(new FileInputStream(relation2)); //create a file reader targeting the login database
 		String[][] loginCatalog = new String[lengthOfTask(relation2)][2];
 	    int sizeOfFile2 = lengthOfTask(relation2);
+	    loginInfoSize = sizeOfFile2; //Size of login info database
 	    
 		for(int i=0; i<sizeOfFile2; i++){
 			
 			loginCatalog[i] = new String[sizeOfFile2];
 			for(int j = 0; j<2; j++){
 				loginCatalog[i][j] = (new StringBuilder("")).append(scanner.next(",")).toString();
-				/*the above line will take all the string */
-				//each "i" a new student, the first "j" element is username, the second "j" element is the password
+				/*the above line will take all the string info up to the next ',' */
+				//each "i" is a new student, the first "j" element is username, the second "j" element is the password
 			}
 			scanner.close(); //unlink the scanner for this catalog before moving onto the next
 		}		
 		
 		return loginCatalog;
 	}
+	
+	/*
+	 * Returns the size of the login database file
+	 */
+	public int fetchLoginInfoSize(){
+		return loginInfoSize;
+	}
     
-    
+    private int loginInfoSize = 0; //Size of the login database
 	private static final String NL = System.getProperty("line.separator");
 	private String relation;
 }
