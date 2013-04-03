@@ -123,7 +123,29 @@ public class FileReader
         lengthTest.close();
         return taskLength;
     }
-
+    
+public String[][] fetchLoginInfo() throws IOException{
+		
+		String relation2 = "C:\\Users\\Troy\\Desktop\\New folder\\loginNamePass.txt";
+		Scanner scanner = new Scanner(new FileInputStream(relation2)); //create a file reader targeting the ith catalog we need
+		String[][] loginCatalog = new String[lengthOfTask(relation2)][2];
+	    int sizeOfFile2 = lengthOfTask(relation2);
+	    
+		for(int i=0; i<sizeOfFile2; i++){
+			
+			loginCatalog[i] = new String[sizeOfFile2];
+			for(int j = 0; j<2; j++){
+				loginCatalog[i][j] = (new StringBuilder("")).append(scanner.next(",")).toString();
+				/*the above line will take all the string */
+				//each "i" a new student, the first "j" element is username, the second "j" element is the password
+			}
+			scanner.close(); //unlink the scanner for this catalog before moving onto the next
+		}		
+		
+		return loginCatalog;
+	}
+    
+    
 	private static final String NL = System.getProperty("line.separator");
 	private String relation;
 }
