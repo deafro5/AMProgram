@@ -8,8 +8,8 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Student myLogin = new Student();
-		//Login myLogin = new Login();
+		//Student myLogin = new Student();
+		Login myLogin = new Login();
 	}
 
 }

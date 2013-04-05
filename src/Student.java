@@ -138,6 +138,7 @@ public class Student extends JFrame implements ActionListener {
 			
 		}else if(e.getActionCommand() == exitButton.getText()){
 			System.out.println("Exit button Pressed");
+			System.exit(0);
 			
 		}
 			

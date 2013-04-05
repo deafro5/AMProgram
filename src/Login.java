@@ -17,13 +17,13 @@ import javax.swing.JTextField;
 
 public class Login extends JFrame implements ActionListener{
 	//WINDOW DIMENSIONS DEFAULT IS WIDTH = 350 HEIGHT = WIDTH/3
-	private final int WINDOW_WIDTH = 350,WINDOW_HEIGHT = WINDOW_WIDTH/3;
+	private final int WINDOW_WIDTH = 350,WINDOW_HEIGHT = 120;
 	
 	//Initialize all components
 	private JPanel inputPanel,grid;
-	private JLabel nameLabel,passwordLabel;
+	private JLabel nameLabel,passwordLabel, passCheckLabel;
 	private JTextField nameBox;
-	private JPasswordField passwordBox;
+	private JPasswordField passwordBox, passCheckBox;
 	private JButton loginButton, newUserButton;
 	private FileReader loginReader;
 	
@@ -46,18 +46,25 @@ public class Login extends JFrame implements ActionListener{
 		nameBox = new JTextField(10);
 		passwordBox = new JPasswordField(10);
 		
+		passCheckLabel = new JLabel("Repeat Password: ");
+		passCheckBox = new JPasswordField(10);
+		
+		passCheckLabel.setVisible(false);
+		passCheckBox.setVisible(false);
 		//create Panel to harness our grid
 		inputPanel = new JPanel();
 		
 		//Create a 2x2 Grid
 		grid = new JPanel();
-		grid.setLayout(new GridLayout(2,2));
+		grid.setLayout(new GridLayout(3,2));
 		
 		//add components to grid
 		grid.add(nameLabel);
 		grid.add(nameBox);
 		grid.add(passwordLabel);
 		grid.add(passwordBox);
+		grid.add(passCheckLabel);
+		grid.add(passCheckBox);
 		
 		//add grid to a separate component
 		inputPanel.add(grid);
@@ -75,6 +82,8 @@ public class Login extends JFrame implements ActionListener{
 		loginButton.addActionListener(this);
 		newUserButton.addActionListener(this);
 		
+		loginReader = new FileReader();
+		
 		//reveal the window
 		setVisible(true);
 		
@@ -83,12 +92,12 @@ public class Login extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand() == "Login"){
-			String userNameEntered = nameBox.getText();
+		if(e.getActionCommand() == loginButton.getActionCommand()){
+			String usernameEntered = nameBox.getText();
 			String passwordEntered;
-			String userNameHashed;
+			String usernameHashed;
 			String passwordHashed;
-			System.out.println("Username: " + userNameEntered);
+			System.out.println("Username: " + usernameEntered);
 			
 			String temp = "";
 			//stores our char[] password into a string
@@ -99,15 +108,22 @@ public class Login extends JFrame implements ActionListener{
 			passwordEntered = temp;
 			System.out.println("Password: " + passwordEntered);
 			
-			userNameHashed = Integer.toString(userNameEntered.hashCode());
+			usernameHashed = Integer.toString(usernameEntered.hashCode());
 			passwordHashed = Integer.toString(passwordEntered.hashCode());
 			
+			System.out.println(usernameHashed + ", " + passwordHashed);
 			//The method below is called to check to see if the username and password hashes match any in the database
 			//hashChecks(userNameHashed, passwordHashed);
 			
+			if(hashChecks(usernameHashed, passwordHashed)){
+				Student newStudent = new Student();
+				setVisible(false);
+			}
 			
-		}else if(e.getActionCommand() == "New User"){
+		}else if(e.getActionCommand() == newUserButton.getActionCommand()){
 			System.out.println("New User Button Pressed");
+			passCheckLabel.setVisible(true);
+			passCheckBox.setVisible(true);
 		}
 		
 		//insert file reader hash check here for login
@@ -143,7 +159,7 @@ public class Login extends JFrame implements ActionListener{
 			
 			//Checks to see if this is the right user
 			//Need to use the compareTo method which returns -1 if false
-			if(loginInfoToCompare[i][j].compareTo(someHashName) >-1){ 
+			if(loginInfoToCompare[i][j].compareTo(someHashName) == 0){ 
 				userFound = true;	//User exists in the database so change boolean
 				System.out.println("Username Exists. Checking password...");
 				//If correct user, compare the passwords (the second element of 'j': [j+1] )
