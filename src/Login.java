@@ -1,5 +1,4 @@
 
-
 import java.awt.BorderLayout;
 
 import java.awt.GridLayout;
@@ -164,7 +163,7 @@ public class Login extends JFrame implements ActionListener{
 				System.out.println("Username Exists. Checking password...");
 				//If correct user, compare the passwords (the second element of 'j': [j+1] )
 				//Need to use the compareTo method which returns -1 if false
-				if(loginInfoToCompare[i][j+1].compareTo(someHashPass) >-1){ 
+				if(loginInfoToCompare[i][j+1].compareTo(someHashPass) == 0){ 
 					System.out.println("Passwords matched");//Found a match
 					return true;	//Return true because everything is a match
 				}
