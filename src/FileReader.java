@@ -6,7 +6,8 @@ import java.util.*;
 public class FileReader 
 {
 	FileReader(){
-		relation = "C:\\Users\\Jimmy\\Documents\\GitHub\\AMProgram\\Database";
+		//relation = "C:\\Users\\Jimmy\\Documents\\GitHub\\AMProgram\\Database";
+		relation = "C:\\Users\\Troy\\Desktop\\New folder";
 	}
 	
 	/*updateDatabase is an administrative accessed method. The administrator will use a file browser from the GUI
@@ -124,6 +125,17 @@ public class FileReader
         return taskLength;
     }
     
+    public void writeNewUser(String info) throws IOException{
+    	String fileWriteName = relation + "\\Login.txt";
+    	
+    	FileWriter fw = new FileWriter(fileWriteName, true);
+		BufferedWriter bw = new BufferedWriter(fw);
+		
+		bw.append(info);
+		bw.append(NL);
+		
+		bw.close();
+    }
     /*
      * This method fetches a 2D array of the login database information.
      * Each 'i' is a new student.
