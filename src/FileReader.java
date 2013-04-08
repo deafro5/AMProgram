@@ -137,12 +137,15 @@ public class FileReader
 		String[][] loginCatalog = new String[lengthOfTask(relation2)][2];
 	    int sizeOfFile2 = lengthOfTask(relation2);
 	    loginInfoSize = sizeOfFile2; //Size of login info database
-	    scanner.useDelimiter(",");
+	    
+	    //use space and page break for delimiters
+	    scanner.useDelimiter(",|\\\n");
+	    System.out.println(scanner.delimiter());
 		for(int i=0; i<sizeOfFile2; i++){
 			
 			//loginCatalog[i] = new String[sizeOfFile2];
 			for(int j = 0; j<2; j++){
-				loginCatalog[i][j] = scanner.next(); //(new StringBuilder()).append(scanner.next(",")).toString();
+				loginCatalog[i][j] = scanner.next().trim(); //(new StringBuilder()).append(scanner.next(",")).toString();
 				/*the above line will take all the string info up to the next ',' */
 				//each "i" is a new student, the first "j" element is username, the second "j" element is the password
 			}
