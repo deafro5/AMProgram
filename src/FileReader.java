@@ -55,23 +55,30 @@ public class FileReader
 	 * in order to generate a list of requirements and how to satisfy those requirement. 
 	 * In the returned value, an array represents a requirement, and each element will contain a class
 	 * ID which satisfies it*/
-	public int[][] fetchReqs(String degree)throws IOException{
+	public String[][] fetchReqs(String degree)throws IOException{
 		Scanner scanner;
 		int numOfReqs;
 		
 		relation = (new StringBuilder(relation)).append("\\").append(degree).append(".txt").toString(); //relation = C:\pathToDatabaseFolder\File
 		scanner = new Scanner(new FileInputStream(relation)); //create a file reader 
+		scanner.useDelimiter(",");
 			
 		numOfReqs = lengthOfTask(relation);
-		int[][] reqs = new int[numOfReqs][];
+		String[][] reqs = new String[numOfReqs][];
 		
 		for(int i = 0; i<numOfReqs; i++){
-			reqs[i] = new int[LengthOfLine(relation, i)];
+			reqs[i] = new String[LengthOfLine(relation, i)];
 
 			for(int j = 0; j < reqs[i].length; j++){
 				StringBuilder newLine = new StringBuilder("");
-				newLine.append(scanner.next(","));
-				reqs[i][j] = Integer.parseInt(newLine.toString());
+				
+				if(j == reqs[i].length - 1){
+					scanner.skip(",");
+					newLine.append(scanner.nextLine());
+				}else{
+					newLine.append(scanner.next());
+				}
+				reqs[i][j] = newLine.toString();
 				/*This reader is similar to the "fetchCatalogs" reader, but differs in that
 				 * instead of a catalog, the outer loop represents a requirement. each item of the inner
 				 * loop represents a class that fulfills that requirement.
@@ -108,15 +115,14 @@ public class FileReader
     private int LengthOfLine(String Relation, int lineNum)
     		throws FileNotFoundException
     {
-    	int taskLength = 0;
+    	int taskLength = 1;
         Scanner lengthTest;
        
         lengthTest = new Scanner(new FileInputStream(relation));
         for(int i = 0; i < lineNum; i++){
         	lengthTest.nextLine();
         }
-        while(lengthTest.hasNext(",")){ //This is currently a source of issue. failing to recognize ","
-        	lengthTest.next(",");		//this failure causes method to return line size of 0. no data copied
+        while(lengthTest.findInLine(",") != null){ 
         	taskLength++;
         }
 
@@ -149,15 +155,23 @@ public class FileReader
 		String[][] loginCatalog = new String[lengthOfTask(relation2)][2];
 	    int sizeOfFile2 = lengthOfTask(relation2);
 	    loginInfoSize = sizeOfFile2; //Size of login info database
-	    
-	    //use space and page break for delimiters
-	    scanner.useDelimiter(",|\\\n");
-	    System.out.println(scanner.delimiter());
+	    scanner.useDelimiter(",");
 		for(int i=0; i<sizeOfFile2; i++){
 			
 			//loginCatalog[i] = new String[sizeOfFile2];
 			for(int j = 0; j<2; j++){
-				loginCatalog[i][j] = scanner.next().trim(); //(new StringBuilder()).append(scanner.next(",")).toString();
+				loginCatalog[i][j] = scanner.next(); //(new StringBuilder()).append(scanner.next(",")).toString();
+				
+				/*!!!!!WARNING
+				 *james/brandon: if you guys test the user login and and enter a valid username/pass, but it still
+				 *says invalid password i may know why. I had an issue with the requirement reader where because ","
+				 *is the delimeter, when .next() was used at the end of the line it would continue pulling and the return
+				 *is "#hashpassNL(newline character)#hashuser(from mext line)". I thought you guys tested this, so i didn't
+				 *want to change it myself, but if we have any issues with the login i think this explains why.
+				 *To resolve: refer to .fetchReqs() where i use .skip(",") and .nextLine()
+				 */
+				
+				
 				/*the above line will take all the string info up to the next ',' */
 				//each "i" is a new student, the first "j" element is username, the second "j" element is the password
 			}
