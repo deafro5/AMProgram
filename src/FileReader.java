@@ -61,7 +61,7 @@ public class FileReader
 		
 		relation = (new StringBuilder(relation)).append("\\").append(degree).append(".txt").toString(); //relation = C:\pathToDatabaseFolder\File
 		scanner = new Scanner(new FileInputStream(relation)); //create a file reader 
-		scanner.useDelimiter(",");
+		scanner.useDelimiter(",|\\\n");
 			
 		numOfReqs = lengthOfTask(relation);
 		String[][] reqs = new String[numOfReqs][];
@@ -71,13 +71,8 @@ public class FileReader
 
 			for(int j = 0; j < reqs[i].length; j++){
 				StringBuilder newLine = new StringBuilder("");
-				
-				if(j == reqs[i].length - 1){
-					scanner.skip(",");
-					newLine.append(scanner.nextLine());
-				}else{
-					newLine.append(scanner.next());
-				}
+				newLine.append(scanner.next());
+			
 				reqs[i][j] = newLine.toString();
 				/*This reader is similar to the "fetchCatalogs" reader, but differs in that
 				 * instead of a catalog, the outer loop represents a requirement. each item of the inner
@@ -155,27 +150,19 @@ public class FileReader
 		String[][] loginCatalog = new String[lengthOfTask(relation2)][2];
 	    int sizeOfFile2 = lengthOfTask(relation2);
 	    loginInfoSize = sizeOfFile2; //Size of login info database
-	    scanner.useDelimiter(",");
-		for(int i=0; i<sizeOfFile2; i++){
-			
-			//loginCatalog[i] = new String[sizeOfFile2];
-			for(int j = 0; j<2; j++){
-				loginCatalog[i][j] = scanner.next(); //(new StringBuilder()).append(scanner.next(",")).toString();
-				
-				/*!!!!!WARNING
-				 *james/brandon: if you guys test the user login and and enter a valid username/pass, but it still
-				 *says invalid password i may know why. I had an issue with the requirement reader where because ","
-				 *is the delimeter, when .next() was used at the end of the line it would continue pulling and the return
-				 *is "#hashpassNL(newline character)#hashuser(from mext line)". I thought you guys tested this, so i didn't
-				 *want to change it myself, but if we have any issues with the login i think this explains why.
-				 *To resolve: refer to .fetchReqs() where i use .skip(",") and .nextLine()
-				 */
-				
-				
+	    	    //use space and page break for delimiters
+	    	    scanner.useDelimiter(",|\\\n");
+	    	    System.out.println(scanner.delimiter());
+	     		for(int i=0; i<sizeOfFile2; i++){
+	     			
+	     			//loginCatalog[i] = new String[sizeOfFile2];
+	     			for(int j = 0; j<2; j++){
+	     				loginCatalog[i][j] = scanner.next().trim(); //(new StringBuilder()).append(scanner.next(",")).toString();
+	     			}
 				/*the above line will take all the string info up to the next ',' */
 				//each "i" is a new student, the first "j" element is username, the second "j" element is the password
 			}
-		}		
+			
 		scanner.close(); //unlink the scanner for this catalog before moving onto the next
 		return loginCatalog;
 	}
