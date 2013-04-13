@@ -7,7 +7,7 @@ public class FileReader
 {
 	FileReader(){
 		//relation = "C:\\Users\\Jimmy\\Documents\\GitHub\\AMProgram\\Database";
-		relation = "C:\\Users\\Troy\\Desktop\\New folder";
+		relation = System.getProperty("user.dir") + "\\database";
 	}
 	
 	/*updateDatabase is an administrative accessed method. The administrator will use a file browser from the GUI
@@ -20,6 +20,31 @@ public class FileReader
 		//output to database file
 	}
 	
+	/*ftechClassLists looks for all files in the catalog folder and returns a 2 dimensional array
+	 * each "i" item of the array represents a catalog, and every "j" item a class in that catalog.
+	 * a dropdown menu can be populated using the "i"s and when an option is selected the "j"s
+	 * can be used to generate a second dropdown.
+	 */
+	public String[][] fetchClassLists() throws IOException{
+		String[] catalogs = null;
+		String[][] lists = null;
+		
+		File f = new File(relation + "\\catalogs");
+		File[] matchingFiles = f.listFiles(new FilenameFilter() {
+		    public boolean accept(File dir, String name) {
+		        return name.endsWith("txt");
+		    }
+		});
+		catalogs = new String[matchingFiles.length];
+		for(int i=0; i < matchingFiles.length; i++){
+			catalogs[i] = matchingFiles[i].getName();
+		}
+		
+		
+		lists = fetchCatalog(catalogs);
+		return lists;
+	}
+	
 	
 	/*fetchCatalogues will be used to populate a list of classes for the user to choose from
 	 * while they are assembling their transcript. The results will also be used
@@ -30,15 +55,17 @@ public class FileReader
 		String[][] catalogs = new String[fields.length][]; 
 	    Scanner scanner;
 	    int sizeOfFile;
+	    String workingRelation;
 		
 		for(int i=0; i<fields.length; i++){
-			relation = (new StringBuilder(relation)).append("\\").append(fields[i]).append(".txt").toString(); //relation = C:\pathToDatabaseFolder\File, File determined by the value at fields[i]
-			scanner = new Scanner(new FileInputStream(relation)); //create a file reader targeting the ith catalog we need
+			workingRelation = (new StringBuilder(relation)).append("\\catalogs\\").append(fields[i]).toString(); //relation = C:\pathToDatabaseFolder\File, File determined by the value at fields[i]
+			scanner = new Scanner(new FileInputStream(workingRelation)); //create a file reader targeting the ith catalog we need
 			
-			sizeOfFile = lengthOfTask(relation);
-			catalogs[i] = new String[sizeOfFile];
-			for(int j = 0; j<sizeOfFile; j++){
-				catalogs[i][j] = (new StringBuilder("")).append(scanner.nextLine()).append(NL).toString();
+			sizeOfFile = lengthOfTask(workingRelation);
+			catalogs[i] = new String[sizeOfFile + 1];
+			catalogs[i][0] = new StringBuilder(fields[i]).delete(fields[i].lastIndexOf(".txt"), fields[i].length()).toString();
+			for(int j = 1; j<=sizeOfFile; j++){
+				catalogs[i][j] = (new StringBuilder("")).append(scanner.nextLine()).toString();
 				/*the above line will need tweaking once the data format is decided. as of now each line of the
 				 * array will store the data: "<original data from database>" */
 				//each "i" represents a catalog, and each "j" represents a line in the ith catalog
@@ -58,16 +85,17 @@ public class FileReader
 	public String[][] fetchReqs(String degree)throws IOException{
 		Scanner scanner;
 		int numOfReqs;
+		String workingRelation;
 		
-		relation = (new StringBuilder(relation)).append("\\").append(degree).append(".txt").toString(); //relation = C:\pathToDatabaseFolder\File
-		scanner = new Scanner(new FileInputStream(relation)); //create a file reader 
+		workingRelation = (new StringBuilder(relation)).append("\\requirements\\").append(degree).append(".txt").toString(); //relation = C:\pathToDatabaseFolder\File
+		scanner = new Scanner(new FileInputStream(workingRelation)); //create a file reader 
 		scanner.useDelimiter(",|\\\n");
 			
 		numOfReqs = lengthOfTask(relation);
 		String[][] reqs = new String[numOfReqs][];
 		
 		for(int i = 0; i<numOfReqs; i++){
-			reqs[i] = new String[LengthOfLine(relation, i)];
+			reqs[i] = new String[LengthOfLine(workingRelation, i)];
 
 			for(int j = 0; j < reqs[i].length; j++){
 				StringBuilder newLine = new StringBuilder("");
@@ -152,7 +180,6 @@ public class FileReader
 	    loginInfoSize = sizeOfFile2; //Size of login info database
 	    	    //use space and page break for delimiters
 	    	    scanner.useDelimiter(",|\\\n");
-	    	    System.out.println(scanner.delimiter());
 	     		for(int i=0; i<sizeOfFile2; i++){
 	     			
 	     			//loginCatalog[i] = new String[sizeOfFile2];
