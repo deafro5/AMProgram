@@ -98,7 +98,7 @@ public class Login extends JFrame implements ActionListener {
 			String usernameHashed;
 			String passwordHashed;
 			System.out.println("Username: " + usernameEntered);
-			
+
 
 			// UNNEEDED WHEN FULL PROGRAM EXISTS
 			String temp = "";
@@ -120,7 +120,7 @@ public class Login extends JFrame implements ActionListener {
 			passwordRepeat = temp;
 			System.out.println("PasswordRepeat: " + passwordRepeat);
 			// UNNEEDED WHEN FULL PROGRAM EXISTS
-			
+
 			usernameHashed = Integer.toString(usernameEntered.hashCode());
 			passwordHashed = Integer.toString(passwordEntered.hashCode());
 			hashChecks(usernameHashed,passwordHashed);
@@ -153,8 +153,9 @@ public class Login extends JFrame implements ActionListener {
 
 				if (hashChecks(usernameHashed, passwordHashed)) {
 					Student newStudent = new Student();
+					newStudent.setHashName(usernameHashed);
 					setVisible(false);
-				
+
 				}else{
 					LoginInfo info = new LoginInfo("Username or Password is incorrect");
 				}
