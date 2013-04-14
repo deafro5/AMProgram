@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -20,7 +21,8 @@ public class Student extends JFrame implements ActionListener {
 	private JComboBox subjectBox,numberBox;
 	private JList studentClasses;
 	private DefaultListModel transcript;
-
+	private FileReader studentWriter;
+	private String hashedUser;
 
 
 	public Student(){
@@ -111,10 +113,10 @@ public class Student extends JFrame implements ActionListener {
 		saveButton.addActionListener(this);
 		exitButton.addActionListener(this);
 
-		//show the window.
+		studentWriter = new FileReader();
+
+		//show the window
 		setVisible(true);
-
-
 	}
 
 	@Override
@@ -137,6 +139,16 @@ public class Student extends JFrame implements ActionListener {
 			}
 		}else if(e.getActionCommand() == saveButton.getText()){
 			System.out.println("Save button Pressed");
+			Object[] takenClassArray = new Object[transcript.getSize()]; //Makes an array of objects
+			takenClassArray = transcript.toArray();//Copies classes into array
+			
+			try {
+				//Calls FileWriter to save the array of classes to a file of the user's hashedName
+				studentWriter.writeUserSave(hashedUser, takenClassArray, transcript.getSize());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}else if(e.getActionCommand() == exitButton.getText()){
 			System.out.println("Exit button Pressed");
 			System.exit(0);
@@ -166,6 +178,15 @@ public class Student extends JFrame implements ActionListener {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Sets variable equal to the current user's hashed name.
+	 * Used to send to the filewriter so it knows where to save a student's classes
+	 * @param someHash (the user name hashed)
+	 */
+	void setHashName(String someHash){
+		hashedUser = someHash;
 	}
 		
 }
