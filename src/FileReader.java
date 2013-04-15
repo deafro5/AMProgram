@@ -1,5 +1,4 @@
 
-
 import java.io.*;
 import java.util.*;
 
@@ -230,21 +229,30 @@ public class FileReader
 	}
 	
 	/**
-	 * 
-	 * @param someHashedUser
-	 * @return String[]
+	 * This method reads a list of classes from a .txt file and saves it to an array of Strings
+	 * @param someHashedUser: The user's hashed name
+	 * @return String[]: A String array of all the classes the student has taken
 	 * @throws FileNotFoundException
 	 */
 	public String[] readLoadClasses(String someHashedUser) throws FileNotFoundException{
 		String fileReadLoadName2 = relation + "\\Saves\\" + someHashedUser + ".txt";
-		String[] loadClass = new String[lengthOfTask(fileReadLoadName2)];
-		Scanner scanner = new Scanner(new FileInputStream(fileReadLoadName2));
+		File f = new File(fileReadLoadName2);
 		
-		for(int i=0; i<lengthOfTask(fileReadLoadName2); i++){
-			loadClass[i] = (new StringBuilder("")).append(scanner.nextLine()).toString();
+		//Checks to see if a save file exists first
+		//If it does, read the file and store it in an array
+		if(f.exists()) {
+			String[] loadClass = new String[lengthOfTask(fileReadLoadName2)];
+			Scanner scanner = new Scanner(new FileInputStream(fileReadLoadName2));
+			
+			for(int i=0; i<lengthOfTask(fileReadLoadName2); i++){
+				loadClass[i] = (new StringBuilder("")).append(scanner.nextLine()).toString();
+			}
+			
+			return loadClass;
+		}else{ //If the file does not exist, return a blank array
+			String[] loadClass = new String[0];
+			return loadClass;
 		}
-		
-		return loadClass;
 	}
     
     private int loginInfoSize = 0; //Size of the login database
