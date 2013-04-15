@@ -70,8 +70,8 @@ public class Student extends JFrame implements ActionListener {
 
 		//demo list for our list box
 		transcript = new DefaultListModel();
-		transcript.addElement("CSC305");
-		transcript.addElement("MTH212");
+		//transcript.addElement("CSC305");
+		//transcript.addElement("MTH212");
 		
 		//Create panels for our output list
 		//output list attributes
@@ -140,6 +140,7 @@ public class Student extends JFrame implements ActionListener {
 		}else if(e.getActionCommand() == saveButton.getText()){
 			System.out.println("Save button Pressed");
 			Object[] takenClassArray = new Object[transcript.getSize()]; //Makes an array of objects
+			System.out.println("Taken classes: " + takenClassArray.toString());
 			takenClassArray = transcript.toArray();//Copies classes into array
 			
 			try {

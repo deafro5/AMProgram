@@ -144,6 +144,8 @@ public class Login extends JFrame implements ActionListener {
 
 						System.out.println(usernameHashed + ", " + passwordHashed);
 						// Open Student window
+						Student myStudent = new Student();
+						this.setVisible(false);
 				}else{
 					System.out.println("Your Passwords Do Not Match");
 					LoginInfo info = new LoginInfo("Your passwords do not match");
@@ -172,12 +174,19 @@ public class Login extends JFrame implements ActionListener {
 			if (newUserMode) {
 				passCheckLabel.setVisible(false);
 				passCheckBox.setVisible(false);
+				
+				loginButton.setText("Login");
+				newUserButton.setText("New User");
 				newUserMode = false;
 			} else {
 				LoginInfo info = new LoginInfo("Please enter the following: \n" +
 						"1. A valid username \n" + "2. A Valid Password \n" + "3. Repeat your password");
 				passCheckLabel.setVisible(true);
 				passCheckBox.setVisible(true);
+				
+				loginButton.setText("Create");
+				newUserButton.setText("Return");
+				
 				newUserMode = true;
 			}
 

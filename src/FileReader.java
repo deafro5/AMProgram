@@ -175,7 +175,7 @@ public class FileReader
      */
 	public String[][] fetchLoginInfo() throws IOException{
 
-		String relation2 = relation + "\\Login.txt"; //current directory
+		String relation2 = relation + "\\Saves\\Login.txt"; //current directory
 		Scanner scanner = new Scanner(new FileInputStream(relation2)); //create a file reader targeting the login database
 		String[][] loginCatalog = new String[lengthOfTask(relation2)][2];
 	    int sizeOfFile2 = lengthOfTask(relation2);
@@ -208,7 +208,7 @@ public class FileReader
 	 * Takes user's hashed name, object array of classes taken and the # of classes taken.
 	 */
 	public void writeUserSave(String someHashedUser, Object[] takenClassArray, int numberOfClasses) throws IOException{
-		String fileWriteName2 = relation + "\\" + someHashedUser + ".txt";
+		String fileWriteName2 = relation + "\\Saves\\" + someHashedUser + ".txt";
 	    
     	FileWriter fw = new FileWriter(fileWriteName2, false);
 		BufferedWriter bw = new BufferedWriter(fw);
