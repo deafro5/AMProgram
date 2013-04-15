@@ -154,13 +154,14 @@ public class FileReader
         return taskLength;
     }
     
-    public void writeNewUser(String info) throws IOException{
+    public void writeNewUser(String hashedName, String hashedPass) throws IOException{
     	String fileWriteName = relation + "\\Login.txt";
     	
     	FileWriter fw = new FileWriter(fileWriteName, true);
 		BufferedWriter bw = new BufferedWriter(fw);
-
-		bw.append(info);
+		
+		
+		bw.append(hashedName + ", " + hashedPass);
 		bw.append(NL);
 
 		bw.close();

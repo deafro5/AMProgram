@@ -185,7 +185,7 @@ public class Student extends JFrame implements ActionListener {
 	 * Used to send to the filewriter so it knows where to save a student's classes
 	 * @param someHash (the user name hashed)
 	 */
-	void setHashName(String someHash){
+	 public void setHashName(String someHash){
 		hashedUser = someHash;
 	}
 		

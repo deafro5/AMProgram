@@ -133,6 +133,12 @@ public class Login extends JFrame implements ActionListener {
 						// output New user Created Window
 						LoginInfo info = new LoginInfo("New User being created, Welcome " + usernameEntered + "!");
 						// add new user to Login file Database
+						try {
+							loginReader.writeNewUser(usernameHashed,passwordHashed);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						usernameHashed = Integer.toString(usernameEntered.hashCode());
 						passwordHashed = Integer.toString(passwordEntered.hashCode());
 
