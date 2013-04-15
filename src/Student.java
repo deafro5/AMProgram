@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.DefaultListModel;
@@ -188,6 +189,15 @@ public class Student extends JFrame implements ActionListener {
 	 */
 	 public void setHashName(String someHash){
 		hashedUser = someHash;
+	}
+	 
+	public void loadStudentClasses() throws FileNotFoundException{
+		 String[] tempLoadClass = null;
+		 tempLoadClass = studentWriter.readLoadClasses(hashedUser);
+		 
+		 for(int i=0; i<tempLoadClass.length; i++){
+			 transcript.addElement(tempLoadClass[i]);
+		 }
 	}
 		
 }

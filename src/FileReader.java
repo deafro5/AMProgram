@@ -228,6 +228,24 @@ public class FileReader
 		}
 		bw.close(); //Closes writer
 	}
+	
+	/**
+	 * 
+	 * @param someHashedUser
+	 * @return String[]
+	 * @throws FileNotFoundException
+	 */
+	public String[] readLoadClasses(String someHashedUser) throws FileNotFoundException{
+		String fileReadLoadName2 = relation + "\\Saves\\" + someHashedUser + ".txt";
+		String[] loadClass = new String[lengthOfTask(fileReadLoadName2)];
+		Scanner scanner = new Scanner(new FileInputStream(fileReadLoadName2));
+		
+		for(int i=0; i<lengthOfTask(fileReadLoadName2); i++){
+			loadClass[i] = (new StringBuilder("")).append(scanner.nextLine()).toString();
+		}
+		
+		return loadClass;
+	}
     
     private int loginInfoSize = 0; //Size of the login database
 	private static final String NL = System.getProperty("line.separator");

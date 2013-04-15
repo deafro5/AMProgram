@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -139,6 +140,7 @@ public class Login extends JFrame implements ActionListener {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						
 						usernameHashed = Integer.toString(usernameEntered.hashCode());
 						passwordHashed = Integer.toString(passwordEntered.hashCode());
 
@@ -159,10 +161,21 @@ public class Login extends JFrame implements ActionListener {
 				// and password hashes match any in the database
 				// hashChecks(userNameHashed, passwordHashed);
 
+				
 				if (hashChecks(usernameHashed, passwordHashed)) {
-					Student newStudent = new Student();
+					Student newStudent = null;
+
+					newStudent = new Student();
 					newStudent.setHashName(usernameHashed);
-					setVisible(false);
+					try {
+						newStudent.loadStudentClasses();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				
+				setVisible(false);
 
 				}else{
 					LoginInfo info = new LoginInfo("Username or Password is incorrect");
