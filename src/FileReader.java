@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 
@@ -154,7 +153,7 @@ public class FileReader
     }
     
     public void writeNewUser(String hashedName, String hashedPass) throws IOException{
-    	String fileWriteName = relation + "\\Login.txt";
+    	String fileWriteName = relation + "\\Saves\\Login.txt";
     	
     	FileWriter fw = new FileWriter(fileWriteName, true);
 		BufferedWriter bw = new BufferedWriter(fw);
