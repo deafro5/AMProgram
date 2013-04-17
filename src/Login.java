@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -27,10 +29,18 @@ public class Login extends JFrame implements ActionListener {
 	private JPasswordField passwordBox, passCheckBox;
 	private JButton loginButton, newUserButton;
 	private FileReader loginReader;
+	
+	//get user's screen info
+	private Toolkit toolkit = Toolkit.getDefaultToolkit();
 
 	public Login() {
 		// set Attributes for our window
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		
+		//Center the Program Window
+		Dimension dim = new Dimension(toolkit.getScreenSize());
+		setLocation((int)dim.getWidth()/2 - WINDOW_WIDTH/2,(int)dim.getHeight()/2 - WINDOW_HEIGHT/2);
+		
 		setTitle("Login");
 		setResizable(false);
 

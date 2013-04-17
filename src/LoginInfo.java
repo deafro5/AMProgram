@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,9 +16,14 @@ public class LoginInfo extends JFrame implements ActionListener{
 	private int WIDTH = 400,HEIGHT = 200;
 	private JTextArea label;
 	private JButton exit;
+	private Toolkit toolkit = Toolkit.getDefaultToolkit();
 	
 	public LoginInfo(String message){
 		setSize(WIDTH,HEIGHT);
+		
+		//Center the Program Window
+		Dimension dim = new Dimension(toolkit.getScreenSize());
+		setLocation((int)dim.getWidth()/2 - WIDTH/2,(int)dim.getHeight()/2 - HEIGHT/2);
 		label = new JTextArea(message);
 		exit = new JButton("Okay");
 		label.setEditable(false);

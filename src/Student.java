@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
@@ -24,12 +26,16 @@ public class Student extends JFrame implements ActionListener {
 	private DefaultListModel transcript;
 	private FileReader studentWriter;
 	private String hashedUser;
-
+	private Toolkit toolkit = Toolkit.getDefaultToolkit();
 
 	public Student(){
 		//Window Attributes
 		setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 		setTitle("Academic Major Selection");
+		
+		//Center the Program Window
+		Dimension dim = new Dimension(toolkit.getScreenSize());
+		setLocation((int)dim.getWidth()/2 - WINDOW_WIDTH/2,(int)dim.getHeight()/2 - WINDOW_HEIGHT/2);
 
 		//do not allow resizing of window
 		setResizable(false);
