@@ -151,12 +151,20 @@ public class Login extends JFrame implements ActionListener {
 							e1.printStackTrace();
 						}
 						
+						
 						usernameHashed = Integer.toString(usernameEntered.hashCode());
 						passwordHashed = Integer.toString(passwordEntered.hashCode());
 
 						System.out.println(usernameHashed + ", " + passwordHashed);
 						// Open Student window
 						Student myStudent = new Student();
+						myStudent.setHashName(usernameHashed);
+						try {
+							myStudent.loadStudentClasses();
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						this.setVisible(false);
 				}else{
 					System.out.println("Your Passwords Do Not Match");
