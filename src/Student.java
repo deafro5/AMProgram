@@ -19,7 +19,7 @@ import javax.swing.ListSelectionModel;
 public class Student extends JFrame implements ActionListener {
 	private final int WINDOW_WIDTH = 800, WINDOW_HEIGHT = 300;
 
-	private JButton addButton,removeButton,saveButton,exitButton;
+	private JButton addButton,removeButton,saveButton,exitButton,compareButton;
 	private JPanel selectPanel,functionPanel,classButtons;
 	private JComboBox subjectBox,numberBox;
 	private JList studentClasses;
@@ -64,6 +64,7 @@ public class Student extends JFrame implements ActionListener {
 		//create add and remove function buttons
 		addButton = new JButton("Add Class ===>");
 		removeButton = new JButton("<=== Remove Class");
+		compareButton = new JButton("Run Comparison");
 
 		//place add and remove buttons into 2 panels for formatting
 		JPanel classButtons = new JPanel();
@@ -97,6 +98,7 @@ public class Student extends JFrame implements ActionListener {
 		functionPanel.setLayout(new GridLayout(2,1,0,25));
 		functionPanel.add(saveButton);
 		functionPanel.add(exitButton);
+		functionPanel.add(compareButton);
 		saveExitButtons.add(functionPanel,BorderLayout.CENTER);
 
 		//Grid for the entire Main Window. "" represents blank grid spaces.
@@ -119,6 +121,7 @@ public class Student extends JFrame implements ActionListener {
 		removeButton.addActionListener(this);
 		saveButton.addActionListener(this);
 		exitButton.addActionListener(this);
+		compareButton.addActionListener(this);
 
 		studentWriter = new FileReader();
 
@@ -160,6 +163,15 @@ public class Student extends JFrame implements ActionListener {
 		}else if(e.getActionCommand() == exitButton.getText()){
 			System.out.println("Exit button Pressed");
 			System.exit(0);
+		}else if(e.getActionCommand() == compareButton.getText()){
+			System.out.println("Comparison button Pressed");
+			CompareEngine compare = new CompareEngine();
+			try {
+				compare.compare(transcript);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
 	}
