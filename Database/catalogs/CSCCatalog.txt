@@ -1,66 +1,7 @@
-101, Computing Concepts, 4
-110, Survey of Computer Science, 4
-200, Computer Problem Solving for Science and Engineering, 4
-201, Introduction to Computer Programming, 4
-211, Introductory Programming and Design, 4
-212, Data Structures and Abstractions, 4
-301, Fundamentals of Programming Languages, 4
-305, Software Engineering, 4
-320, Social Issues in Computing, 4
-340, Mathematical Foundations of Computer Science, 4
-350, Fundamentals of Mathematical Computation, 4
-402, Compiler Design, 4
-406, Computer Graphics, 4
-411, Computer Organization, 4
-412, Operating Systems and Networks, 4
-414, Computer Systems Fundamentals, 4
-415, Introduction to Parallel Computing, 4
-417, Computer Communications, 3
-418, Information and Network Security, 4
-436, Database Management Systems, 4
-440, Algorithms and Data Structures, 4
-445, Models of Computation, 4
-447, Discrete Mathematical, 3
-481, Artificial Intelligence, 4
-485, Computer Forensics, 4
-486, Network Forensics, 4
-491, Directed Study in Computer Science, 1
-491, Directed Study in Computer Science, 2
-491, Directed Study in Computer Science, 3
-491, Directed Study in Computer Science, 4
-492, Special Topics in Computer Science, 1
-492, Special Topics in Computer Science, 2
-492, Special Topics in Computer Science, 3
-492, Special Topics in Computer Science, 4
-499, Project in Computer Science, 4
-501, Programming Language Semantics, 4
-502, Theory of Compilers, 4
-505, Advanced Topics in Software Engineering, 4
-509, Object-Oriented System Design, 4
-511, Advanced Computer Organization, 4
-512, Topics in Distributed Systems, 4
-519, Computer Networks, 4
-522, Bioinformatics, 3
-525, Systems Simulation, 3
-536, Topics in Data Management Systems, 4
-541, Advanced Topics in Algorithms, 4
-542, Mathematical Analysis of Algorithms, 4
-544, Theory of Computation, 4
-547, Combinatorics and Graph Theory, 3
-548, Graph Theory, 3
-550, Computer Algebra, 4
-581, Special Topics in Artificial Intelligence, 3
-583, Computer Vision, 3
-585, Topics in Computer Forensics, 4
-586, Topics in Network Forensics, 4
-590, Digital Forensics Practicum, 3
-591, Directed Study in Computer Science, 1
-591, Directed Study in Computer Science, 2
-591, Directed Study in Computer Science, 3
-591, Directed Study in Computer Science, 4
-592, Special Topics in Computer Science, 1
-592, Special Topics in Computer Science, 2
-592, Special Topics in Computer Science, 3
-592, Special Topics in Computer Science, 4
-599, Master’s Thesis Research
-699, Doctoral Dissertation Research
+100, Introduction to Public Relations, 3
+200, Introduction to Event Management, 3
+340, Public Relations, 3
+441, Public Relations Practices, 3
+442, Strategic Media Communication, 3
+491, Public Relations Internship, 3
+491, Public Relations Internship, 6
