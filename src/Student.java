@@ -23,7 +23,7 @@ public class Student extends JFrame implements ActionListener {
 	private JPanel selectPanel,functionPanel,classButtons;
 	private JComboBox subjectBox,numberBox;
 	private JList studentClasses;
-	private DefaultListModel transcript;
+	private DefaultListModel<String> transcript;
 	private FileReader studentWriter;
 	private String hashedUser;
 	private Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -77,7 +77,7 @@ public class Student extends JFrame implements ActionListener {
 		classButtons.add(buttons,BorderLayout.CENTER);
 
 		//demo list for our list box
-		transcript = new DefaultListModel();
+		transcript = new DefaultListModel<String>();
 		//transcript.addElement("CSC305");
 		//transcript.addElement("MTH212");
 		
@@ -139,7 +139,7 @@ public class Student extends JFrame implements ActionListener {
 				System.out.println("You've already added that class.");
 			}
 			else{
-				transcript.addElement(new StringBuilder("").append(subjectBox.getSelectedItem()).append(numberBox.getSelectedItem()));
+				transcript.addElement(new StringBuilder("").append(subjectBox.getSelectedItem()).append(numberBox.getSelectedItem()).toString());
 			}
 		}else if(e.getActionCommand() == removeButton.getText()){
 			System.out.println("Remove button Pressed");
@@ -167,7 +167,11 @@ public class Student extends JFrame implements ActionListener {
 			System.out.println("Comparison button Pressed");
 			CompareEngine compare = new CompareEngine();
 			try {
-				compare.compare(transcript);
+				DefaultListModel<String> copytranscript = new DefaultListModel<String>();
+				for(int i=0; i<transcript.getSize();i++){
+					copytranscript.addElement(transcript.get(i));
+				}
+				compare.compare(copytranscript);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
