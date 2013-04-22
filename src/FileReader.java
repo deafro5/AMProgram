@@ -5,7 +5,7 @@ public class FileReader
 {
 	FileReader(){
 		//relation = "C:\\Users\\Jimmy\\Documents\\GitHub\\AMProgram\\Database";
-		relation = System.getProperty("user.dir") + "\\database";
+		relation = System.getProperty("user.dir") + "\\Database";
 	}
 
 	/*updateDatabase is an administrative accessed method. The administrator will use a file browser from the GUI
@@ -58,12 +58,14 @@ public class FileReader
 		for(int i=0; i<fields.length; i++){
 			workingRelation = (new StringBuilder(relation)).append("\\catalogs\\").append(fields[i]).toString(); //relation = C:\pathToDatabaseFolder\File, File determined by the value at fields[i]
 			scanner = new Scanner(new FileInputStream(workingRelation)); //create a file reader targeting the ith catalog we need
-
+			scanner.useDelimiter(",");
+			
 			sizeOfFile = lengthOfTask(workingRelation);
 			catalogs[i] = new String[sizeOfFile + 1];
 			catalogs[i][0] = new StringBuilder(fields[i]).delete(fields[i].lastIndexOf(".txt"), fields[i].length()).toString();
 			for(int j = 1; j<=sizeOfFile; j++){
-				catalogs[i][j] = (new StringBuilder("")).append(scanner.nextLine()).toString();
+				catalogs[i][j] = (new StringBuilder("")).append(scanner.next()).toString().trim();
+				scanner.nextLine();
 				/*the above line will need tweaking once the data format is decided. as of now each line of the
 				 * array will store the data: "<original data from database>" */
 				//each "i" represents a catalog, and each "j" represents a line in the ith catalog
@@ -86,11 +88,12 @@ public class FileReader
 		String workingRelation;
 
 		workingRelation = (new StringBuilder(relation)).append("\\requirements\\").append(degree).append(".txt").toString(); //relation = C:\pathToDatabaseFolder\File
+		
+		numOfReqs = lengthOfTask(workingRelation);
+		String[][] reqs = new String[numOfReqs][];
+		
 		scanner = new Scanner(new FileInputStream(workingRelation)); //create a file reader 
 		scanner.useDelimiter(",|\\\n");
-
-		numOfReqs = lengthOfTask(relation);
-		String[][] reqs = new String[numOfReqs][];
 
 		for(int i = 0; i<numOfReqs; i++){
 			reqs[i] = new String[LengthOfLine(workingRelation, i)];
@@ -99,7 +102,7 @@ public class FileReader
 				StringBuilder newLine = new StringBuilder("");
 				newLine.append(scanner.next());
 
-				reqs[i][j] = newLine.toString();
+				reqs[i][j] = newLine.toString().trim();
 				/*This reader is similar to the "fetchCatalogs" reader, but differs in that
 				 * instead of a catalog, the outer loop represents a requirement. each item of the inner
 				 * loop represents a class that fulfills that requirement.
@@ -133,7 +136,7 @@ public class FileReader
             return taskLength;
         }
     
-    private int LengthOfLine(String Relation, int lineNum)
+    private int LengthOfLine(String relation, int lineNum)
     		throws FileNotFoundException
     {
     	int taskLength = 1;
@@ -246,7 +249,7 @@ public class FileReader
 			for(int i=0; i<lengthOfTask(fileReadLoadName2); i++){
 				loadClass[i] = (new StringBuilder("")).append(scanner.nextLine()).toString();
 			}
-			
+			scanner.close();
 			return loadClass;
 		}else{ //If the file does not exist, return a blank array
 			String[] loadClass = new String[0];
