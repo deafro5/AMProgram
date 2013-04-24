@@ -16,7 +16,7 @@ public class CompareEngine {
 	
 	public void compare(DefaultListModel classlist) throws IOException{
 		DefaultListModel<String> transcript = classlist;
-		DefaultListModel<String> tempList = null;
+		DefaultListModel<String> tempList = new DefaultListModel<String>();
 		String recommend = null;
 		ArrayList<String> recommendList = new ArrayList<String>();
 		reqs = databaseReader.fetchReqs("TestReq");
@@ -26,11 +26,11 @@ public class CompareEngine {
 		for(int i = 0; i<reqs.length; i++){
 			if(reqs[i][0].contains("@")){
 				//we have found an @ which represents select any class > indicated value
-				if(tempList != null){
+				if(!tempList.isEmpty()){
 					for(int x = 0; x<tempList.getSize();x++){
 						transcript.addElement(tempList.get(x));
 					}
-					tempList = null;
+					tempList.clear();
 				}
 				if(reqs[i][1].substring(0,1) == "*"){
 					if(reqs[i][1].substring(3,4) == "*"){
@@ -93,7 +93,7 @@ public class CompareEngine {
 				}else{
 					for(int k = 0; k < transcript.getSize(); k++){
 						if(reqs[i][1].substring(0,3).compareTo(transcript.get(k).substring(0,3)) == 0){
-							if(reqs[i][1].substring(3,6).compareTo(transcript.get(k).substring(3,6)) > 0){
+							if(reqs[i][1].substring(3,6).compareTo(transcript.get(k).substring(3,6)) < 0){
 								matchFound = true;
 								tempList.addElement(transcript.get(k));
 								transcript.remove(k);
@@ -107,11 +107,11 @@ public class CompareEngine {
 			}else{
 				//with no special rules, see if any transcript values match any
 				// values in reqs[i]
-				if(tempList != null){
+				if(!tempList.isEmpty()){
 					for(int x = 0; x<tempList.getSize();x++){
 						transcript.addElement(tempList.get(x));
 					}
-					tempList = null;
+					tempList.clear();
 				}
 				for(int j = 1; j< reqs[i].length; j++){
 					for(int k = 0; k < transcript.getSize(); k++){
@@ -122,17 +122,16 @@ public class CompareEngine {
 						}
 					}
 				}
-				if(!matchFound){		//if we did not find a match
-					recommend = "You need a class to fit:";	
-					for(int j = 0; j < reqs[i].length; j++){	//provide the user a list of selections
-						recommend = recommend + " " + reqs[i][j];
-					}
-					recommendList.add(recommend);
-				}else{
-					matchFound = false;
-				}
 			}
-
+			if(!matchFound){		//if we did not find a match
+				recommend = "You need a class to fit:";	
+				for(int j = 0; j < reqs[i].length; j++){	//provide the user a list of selections
+					recommend = recommend + " " + reqs[i][j];
+				}
+				recommendList.add(recommend);
+			}else{
+				matchFound = false;
+			}
 			//requirement precedence. one class may not satisfy 2 requirements, but can.
 			// required classes should take precedence over proffesional electives, which
 			// take precedence over free electives. precedence is determined by order 
