@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -27,12 +28,14 @@ public class LoginInfo extends JFrame implements ActionListener{
 		label = new JTextArea(message);
 		exit = new JButton("Okay");
 		label.setEditable(false);
+		label.setOpaque(false);
 		setResizable(false);
 		exit.addActionListener(this);
 		JPanel temp = new JPanel();
 		temp.add(label,BorderLayout.CENTER);
 		temp.add(exit,BorderLayout.SOUTH);
 		getContentPane().add(temp,BorderLayout.CENTER);
+		
 		setVisible(true);
 	}
 
