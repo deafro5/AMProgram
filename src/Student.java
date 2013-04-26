@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 public class Student extends JFrame implements ActionListener {
@@ -87,7 +88,7 @@ public class Student extends JFrame implements ActionListener {
 		studentClasses.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		studentClasses.setLayoutOrientation(JList.VERTICAL);
 		studentClasses.setVisibleRowCount(-1);
-
+		JScrollPane scrollableList = new JScrollPane(studentClasses);
 		//places main functions save and exit into a panel
 		functionPanel = new JPanel();
 		JPanel saveExitButtons = new JPanel();
@@ -111,7 +112,7 @@ public class Student extends JFrame implements ActionListener {
 		getContentPane().add(new JLabel(""));
 		getContentPane().add(dropdownBoxes);
 		getContentPane().add(classButtons);
-		getContentPane().add(studentClasses);
+		getContentPane().add(scrollableList);
 		getContentPane().add(new JLabel(""));
 		getContentPane().add(new JLabel(""));
 		getContentPane().add(saveExitButtons);
@@ -140,6 +141,12 @@ public class Student extends JFrame implements ActionListener {
 			}
 			else{
 				transcript.addElement(new StringBuilder("").append(subjectBox.getSelectedItem()).append(numberBox.getSelectedItem()).toString());
+			}
+			
+			String[] sortedClasses = sortClasses(transcript.toArray());
+			transcript.clear();
+			for(int i = 0; i < sortedClasses.length;i++){
+				transcript.addElement(sortedClasses[i]);
 			}
 		}else if(e.getActionCommand() == removeButton.getText()){
 			System.out.println("Remove button Pressed");
@@ -220,6 +227,45 @@ public class Student extends JFrame implements ActionListener {
 		 for(int i=0; i<tempLoadClass.length; i++){
 			 transcript.addElement(tempLoadClass[i]);
 		 }
+	}
+	
+	private String[] sortClasses(Object[] someTranscript){
+		//Object[] objectList = new Object[someTranscript.length];
+		String[] stringList = new String[someTranscript.length];
+		
+		
+		//change objects to strings.
+		for (int k = 0; k < stringList.length;k++){
+			stringList[k] = someTranscript[k].toString();
+		}
+		
+		
+		
+		if (someTranscript.length <= 1){
+			return stringList;
+		}
+		
+		int i = 0;
+		while(i< stringList.length){
+		String smallest = stringList[i];
+		int smallestIndex = i;
+			int j = i;
+			while(j < stringList.length){
+				if(stringList[j].compareTo(smallest) <= 0){
+					smallest = stringList[j];
+					smallestIndex = j;
+				}
+				j++;
+			}
+			
+			String temp;
+			temp = stringList[i];
+			stringList[i] = stringList[smallestIndex];
+			stringList[smallestIndex] = temp;
+			i++;
+		}
+		
+		return stringList;
 	}
 		
 }
