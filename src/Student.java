@@ -40,14 +40,25 @@ public class Student extends JFrame implements ActionListener {
 
 		//do not allow resizing of window
 		setResizable(false);
+		
+		studentWriter = new FileReader();
 
 		//create arrays for classes
 		//input file reader here
-		String[] subjectArray = {"CSC","MTH","ENG","THE","PHY"};
+		String[] subjectArray = null;
+		try {
+			subjectArray = setFirstDropDownBox();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		String[] numberArray = {"100","200","300","400","500"};
 
+		
+		
 		//create boxes for dropdown
 		subjectBox = new JComboBox(subjectArray);
+		subjectBox.addActionListener(this);
 		numberBox = new JComboBox(numberArray);
 
 		//creates a panel for our dropdown panels
@@ -123,8 +134,14 @@ public class Student extends JFrame implements ActionListener {
 		saveButton.addActionListener(this);
 		exitButton.addActionListener(this);
 		compareButton.addActionListener(this);
+		
+		try {
+			setSecondDropDownBox();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		studentWriter = new FileReader();
 
 		//show the window
 		setVisible(true);
@@ -183,8 +200,50 @@ public class Student extends JFrame implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		}else if(((String)subjectBox.getSelectedItem()).length() == 3){
+			System.out.println("New Subject Selected");
+			try {
+				setFirstDropDownBox();
+				setSecondDropDownBox();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
+	}
+	
+	String[] setFirstDropDownBox() throws IOException{
+		int i=0;
+		String[][] someArrayTwoD2 = studentWriter.fetchClassLists();
+		
+		String[] someSubjectArray = new String[someArrayTwoD2.length];
+		while(i<someArrayTwoD2.length){
+			someSubjectArray[i] = someArrayTwoD2[i][0];
+			i++;
+		}
+		return someSubjectArray;
+	}
+	
+	void setSecondDropDownBox() throws IOException{
+		int j=0;
+		
+		String[][] someArrayTwoD = studentWriter.fetchClassLists();
+		
+		String[] numberArray = new String[someArrayTwoD[subjectBox.getSelectedIndex()].length-1];
+		for(int i=0; i<numberArray.length; i++){
+			numberArray[i] = someArrayTwoD[subjectBox.getSelectedIndex()][i+1];
+		}	
+		
+		//selectPanel.remove(subjectBox);
+		selectPanel.remove(numberBox);
+	
+		//subjectBox = new JComboBox(subjectArray);
+		numberBox = new JComboBox(numberArray);
+		
+		//selectPanel.add(subjectBox);
+		selectPanel.add(numberBox);
+		selectPanel.validate();
 	}
 	
 	/**
