@@ -235,7 +235,8 @@ public class Student extends JFrame implements ActionListener {
 				for(int i=0; i<transcript.getSize();i++){
 					copytranscript.addElement(transcript.get(i));
 				}
-				compare.compare(copytranscript);
+				ArrayList<String> recommendations = compare.compare(copytranscript);
+				ResultsGUI results = new ResultsGUI(recommendations);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
