@@ -39,6 +39,7 @@ public class ResultsGUI extends JFrame implements ActionListener{
 		studentClasses2.setVisibleRowCount(-1);
 		
 		setSize(WIDTH,HEIGHT);
+		setTitle("Classes Left To Complete");
 		
 		//Center the Program Window
 		Dimension dim = new Dimension(toolkit.getScreenSize());
