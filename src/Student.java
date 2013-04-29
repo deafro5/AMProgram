@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -15,10 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 
 public class Student extends JFrame implements ActionListener {
-	private final int WINDOW_WIDTH = 800, WINDOW_HEIGHT = 300;
+	private final int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 500;
 
 	private JButton addButton,removeButton,saveButton,exitButton,compareButton;
 	private JPanel selectPanel,functionPanel,classButtons;
@@ -112,15 +114,33 @@ public class Student extends JFrame implements ActionListener {
 		functionPanel.add(exitButton);
 		functionPanel.add(compareButton);
 		saveExitButtons.add(functionPanel,BorderLayout.CENTER);
-
+		
+		
+		//Call for Instantiation of instructions
+		String[] instructions = instructionInit();
+		JTextArea selectStep = new JTextArea(instructions[0]);
+		selectStep.setEditable(false);
+		selectStep.setOpaque(false);
+		selectStep.setFont(new Font("SERIF",Font.BOLD, 16));
+		
+		JTextArea addStep = new JTextArea(instructions[1]);
+		addStep.setEditable(false);
+		addStep.setOpaque(false);
+		addStep.setFont(new Font("SERIF",Font.BOLD, 16));
+		
+		JTextArea checkStep = new JTextArea(instructions[2]);
+		checkStep.setEditable(false);
+		checkStep.setOpaque(false);
+		checkStep.setFont(new Font("SERIF",Font.BOLD, 16));
+		
 		//Grid for the entire Main Window. "" represents blank grid spaces.
 		// grid adds left to right, top to bottom in a 3x3 grid. 1 2 3
 		//                                                       4 5 6
 		//                                                       7 8 9
 		getContentPane().setLayout(new GridLayout(3,3));
-		getContentPane().add(new JLabel(""));
-		getContentPane().add(new JLabel(""));
-		getContentPane().add(new JLabel(""));
+		getContentPane().add(selectStep);
+		getContentPane().add(addStep);
+		getContentPane().add(checkStep);
 		getContentPane().add(dropdownBoxes);
 		getContentPane().add(classButtons);
 		getContentPane().add(scrollableList);
@@ -145,6 +165,26 @@ public class Student extends JFrame implements ActionListener {
 
 		//show the window
 		setVisible(true);
+	}
+
+	private String[] instructionInit() {
+		// TODO Auto-generated method stub
+		String[] instructions = new String[3];
+		
+		//first instruction paragraph
+		//for dropdown boxes
+		instructions[0] = 	"\n Step 1: Select Class subject. \n" + 
+							"\n Step 2: Select corresponding Course #.";
+		//Second instruction paragraph
+		// for add and remove buttons
+		instructions[1] = 	"\n Step 3: Click add to add your class. \n";
+		
+		//Third instruction paragraph
+		//Removing and checking classes
+		instructions[2] = 	"\n Step 4: Check if your classes are correct! \n" +
+							"\n If you need to remove classes, select them, \n" +
+							" then Click the Remove Button. ";
+		return instructions;
 	}
 
 	@Override

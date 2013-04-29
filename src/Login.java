@@ -29,18 +29,19 @@ public class Login extends JFrame implements ActionListener {
 	private JPasswordField passwordBox, passCheckBox;
 	private JButton loginButton, newUserButton;
 	private FileReader loginReader;
-	
-	//get user's screen info
+
+	// get user's screen info
 	private Toolkit toolkit = Toolkit.getDefaultToolkit();
 
 	public Login() {
 		// set Attributes for our window
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		
-		//Center the Program Window
+
+		// Center the Program Window
 		Dimension dim = new Dimension(toolkit.getScreenSize());
-		setLocation((int)dim.getWidth()/2 - WINDOW_WIDTH/2,(int)dim.getHeight()/2 - WINDOW_HEIGHT/2);
-		
+		setLocation((int) dim.getWidth() / 2 - WINDOW_WIDTH / 2,
+				(int) dim.getHeight() / 2 - WINDOW_HEIGHT / 2);
+
 		setTitle("Login");
 		setResizable(false);
 
@@ -110,7 +111,6 @@ public class Login extends JFrame implements ActionListener {
 			String passwordHashed;
 			System.out.println("Username: " + usernameEntered);
 
-
 			// UNNEEDED WHEN FULL PROGRAM EXISTS
 			String temp = "";
 			// stores our char[] password into a string
@@ -134,43 +134,54 @@ public class Login extends JFrame implements ActionListener {
 
 			usernameHashed = Integer.toString(usernameEntered.hashCode());
 			passwordHashed = Integer.toString(passwordEntered.hashCode());
-			hashChecks(usernameHashed,passwordHashed);
+			hashChecks(usernameHashed, passwordHashed);
 			if (newUserMode) {
-				if(usernameExists){
-					LoginInfo info = new LoginInfo("Username already Exists in Database\n" + 
-							"Please hit the New User Button and try logging in with your password");
-				} else if(passwordEntered.hashCode() == passwordRepeat.hashCode()) {
-						System.out.println("Your Password Matches");
-						// output New user Created Window
-						LoginInfo info = new LoginInfo("New User being created, Welcome " + usernameEntered + "!");
-						// add new user to Login file Database
-						try {
-							loginReader.writeNewUser(usernameHashed,passwordHashed);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						
-						
-						usernameHashed = Integer.toString(usernameEntered.hashCode());
-						passwordHashed = Integer.toString(passwordEntered.hashCode());
+				if (usernameExists) {
+					LoginInfo info = new LoginInfo(
+							"Username already Exists in Database\n"
+									+ "Please hit the New User Button and try logging in with your password");
+				} else if (passwordEntered.hashCode() == passwordRepeat
+						.hashCode()) {
+					System.out.println("Your Password Matches");
+					// output New user Created Window
+					LoginInfo info = new LoginInfo(
+							"New User being created, Welcome "
+									+ usernameEntered + "!");
+					// add new user to Login file Database
+					try {
+						loginReader
+								.writeNewUser(usernameHashed, passwordHashed);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
-						System.out.println(usernameHashed + ", " + passwordHashed);
-						// Open Student window
+					usernameHashed = Integer.toString(usernameEntered
+							.hashCode());
+					passwordHashed = Integer.toString(passwordEntered
+							.hashCode());
+
+					System.out.println(usernameHashed + ", " + passwordHashed);
+					// Open Student window
+					if (!info.isVisible()) {
 						Student myStudent = new Student();
 						myStudent.setHashName(usernameHashed);
+
 						try {
 							myStudent.loadStudentClasses();
 						} catch (FileNotFoundException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						this.setVisible(false);
-				}else{
+					}
+
+					this.setVisible(false);
+				} else {
 					System.out.println("Your Passwords Do Not Match");
-					LoginInfo info = new LoginInfo("Your passwords do not match");
+					LoginInfo info = new LoginInfo(
+							"Your passwords do not match");
 				}
-			}else{
+			} else {
 				usernameHashed = Integer.toString(usernameEntered.hashCode());
 				passwordHashed = Integer.toString(passwordEntered.hashCode());
 
@@ -179,7 +190,6 @@ public class Login extends JFrame implements ActionListener {
 				// and password hashes match any in the database
 				// hashChecks(userNameHashed, passwordHashed);
 
-				
 				if (hashChecks(usernameHashed, passwordHashed)) {
 					Student newStudent = null;
 
@@ -191,12 +201,12 @@ public class Login extends JFrame implements ActionListener {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
-				
-				setVisible(false);
 
-				}else{
-					LoginInfo info = new LoginInfo("Username or Password is incorrect");
+					setVisible(false);
+
+				} else {
+					LoginInfo info = new LoginInfo(
+							"Username or Password is incorrect");
 				}
 			}
 
@@ -205,19 +215,20 @@ public class Login extends JFrame implements ActionListener {
 			if (newUserMode) {
 				passCheckLabel.setVisible(false);
 				passCheckBox.setVisible(false);
-				
+
 				loginButton.setText("Login");
 				newUserButton.setText("New User");
 				newUserMode = false;
 			} else {
-				LoginInfo info = new LoginInfo("Please enter the following: \n" +
-						"1. A valid username \n" + "2. A Valid Password \n" + "3. Repeat your password");
+				LoginInfo info = new LoginInfo("Please enter the following: \n"
+						+ "1. A valid username \n" + "2. A Valid Password \n"
+						+ "3. Repeat your password");
 				passCheckLabel.setVisible(true);
 				passCheckBox.setVisible(true);
-				
+
 				loginButton.setText("Create");
 				newUserButton.setText("Return");
-				
+
 				newUserMode = true;
 			}
 
