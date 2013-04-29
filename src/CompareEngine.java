@@ -9,20 +9,20 @@ public class CompareEngine {
 	String genEds;
 	String[][] reqs;
 	boolean matchFound = false;
-	
+
 	CompareEngine(){
 		databaseReader = new FileReader();
 	}
-	
-	public void compare(DefaultListModel classlist) throws IOException{
+
+	public ArrayList<String> compare(DefaultListModel classlist) throws IOException{
 		DefaultListModel<String> transcript = classlist;
 		DefaultListModel<String> tempList = new DefaultListModel<String>();
 		String recommend = null;
 		ArrayList<String> recommendList = new ArrayList<String>();
 		reqs = databaseReader.fetchReqs("TestReq");
-		
-		
-		
+
+
+
 		for(int i = 0; i<reqs.length; i++){
 			if(reqs[i][0].contains("@")){
 				//we have found an @ which represents select any class > indicated value
@@ -66,7 +66,7 @@ public class CompareEngine {
 							}
 						}
 					}
-					
+
 				}	
 			}else if(reqs[i][0].contains("*")){
 				//we have found a * which represents that a class fulfilling it may also
@@ -100,10 +100,10 @@ public class CompareEngine {
 							}
 						}
 					}
-					
+
 				}	
-				
-				
+
+
 			}else{
 				//with no special rules, see if any transcript values match any
 				// values in reqs[i]
@@ -137,9 +137,10 @@ public class CompareEngine {
 			// take precedence over free electives. precedence is determined by order 
 			// listed in requirements file
 		}
-		for(int i =0; i<recommendList.size();i++){
-			System.out.println(recommendList.get(i));
-		}
+		//for(int i =0; i<recommendList.size();i++){
+			//System.out.println(recommendList.get(i));
+		//}
+		return recommendList;
 	}
-	
+
 }
