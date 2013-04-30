@@ -140,42 +140,38 @@ public class Login extends JFrame implements ActionListener {
 					LoginInfo info = new LoginInfo(
 							"Username already Exists in Database\n"
 									+ "Please hit the New User Button and try logging in with your password");
-				} else if (passwordEntered.hashCode() == passwordRepeat
-						.hashCode()) {
+				} else if (passwordEntered.hashCode() == passwordRepeat.hashCode()) {
 					System.out.println("Your Password Matches");
-					// output New user Created Window
-					LoginInfo info = new LoginInfo(
-							"New User being created, Welcome "
-									+ usernameEntered + "!");
+					
 					// add new user to Login file Database
 					try {
-						loginReader
-								.writeNewUser(usernameHashed, passwordHashed);
+						loginReader.writeNewUser(usernameHashed, passwordHashed);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 
-					usernameHashed = Integer.toString(usernameEntered
-							.hashCode());
-					passwordHashed = Integer.toString(passwordEntered
-							.hashCode());
+					usernameHashed = Integer.toString(usernameEntered.hashCode());
+					passwordHashed = Integer.toString(passwordEntered.hashCode());
 
 					System.out.println(usernameHashed + ", " + passwordHashed);
 					// Open Student window
-					if (!info.isVisible()) {
-						Student myStudent = new Student();
-						myStudent.setHashName(usernameHashed);
-
-						try {
-							myStudent.loadStudentClasses();
-						} catch (FileNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-
+					
+							Student myStudent = new Student();
+							myStudent.setHashName(usernameHashed);
+							try {
+								myStudent.loadStudentClasses();
+								
+							} catch (FileNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							
+							// output New user Created Window
+							LoginInfo info = new LoginInfo("New User being created, Welcome "+ usernameEntered + "!");
+							
 					this.setVisible(false);
+					
 				} else {
 					System.out.println("Your Passwords Do Not Match");
 					LoginInfo info = new LoginInfo(
