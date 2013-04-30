@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -21,6 +20,7 @@ public class LoginInfo extends JFrame implements ActionListener{
 	
 	public LoginInfo(String message){
 		setSize(WIDTH,HEIGHT);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//Center the Program Window
 		Dimension dim = new Dimension(toolkit.getScreenSize());
@@ -35,7 +35,6 @@ public class LoginInfo extends JFrame implements ActionListener{
 		temp.add(label,BorderLayout.CENTER);
 		temp.add(exit,BorderLayout.SOUTH);
 		getContentPane().add(temp,BorderLayout.CENTER);
-		
 		setVisible(true);
 	}
 
