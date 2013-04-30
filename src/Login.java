@@ -44,7 +44,8 @@ public class Login extends JFrame implements ActionListener {
 
 		setTitle("Login");
 		setResizable(false);
-
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		// create login button with Text
 		loginButton = new JButton("Login");
 		// create button if there is a new user.
