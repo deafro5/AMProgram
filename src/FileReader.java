@@ -23,11 +23,11 @@ public class FileReader
 	 * a dropdown menu can be populated using the "i"s and when an option is selected the "j"s
 	 * can be used to generate a second dropdown.
 	 */
-	public String[][] fetchClassLists() throws IOException{
+	public String[] fetchFiles(String type) throws IOException{
 		String[] catalogs = null;
-		String[][] lists = null;
+		//String[][] lists = null;
 
-		File f = new File(relation + "\\catalogs");
+		File f = new File(relation + type);
 		File[] matchingFiles = f.listFiles(new FilenameFilter() {
 		    public boolean accept(File dir, String name) {
 		        return name.endsWith("txt");
@@ -39,8 +39,8 @@ public class FileReader
 		}
 
 
-		lists = fetchCatalog(catalogs);
-		return lists;
+		//lists = fetchCatalog(catalogs);
+		return catalogs;
 	}
 
 
