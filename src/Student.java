@@ -329,11 +329,11 @@ public class Student extends JFrame implements ActionListener {
 			int i=0;
 			String[] someArray = studentWriter.fetchFiles("//requirements");
 	
-			String[] someDegreeArray = new String[someArray.length];
-			someDegreeArray[i] = "";
-			i++;
+			String[] someDegreeArray = new String[someArray.length+1];
+			someDegreeArray[0] = "";
 			while(i<someArray.length){
-				someDegreeArray[i] = someArray[i].substring(0,someArray[i].lastIndexOf("."));
+				
+				someDegreeArray[i+1] = someArray[i].substring(0,someArray[i].lastIndexOf("."));
 				i++;
 			}
 			return someDegreeArray;
