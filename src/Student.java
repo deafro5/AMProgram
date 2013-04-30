@@ -5,11 +5,15 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -21,7 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 
 public class Student extends JFrame implements ActionListener {
-	private final int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 500;
+	private final int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 650;
 
 	private JButton addButton,removeButton,saveButton,exitButton,compareButton;
 	private JPanel selectPanel,functionPanel,classButtons;
@@ -31,11 +35,13 @@ public class Student extends JFrame implements ActionListener {
 	private FileReader studentWriter;
 	private String hashedUser;
 	private Toolkit toolkit = Toolkit.getDefaultToolkit();
+	private BufferedImage image;
 
 	public Student(){
 		//Window Attributes
 		setSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 		setTitle("Academic Major Selection");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		//Center the Program Window
 		Dimension dim = new Dimension(toolkit.getScreenSize());
@@ -153,6 +159,13 @@ public class Student extends JFrame implements ActionListener {
 		submitStep.setOpaque(false);
 		submitStep.setFont(new Font("SERIF",Font.BOLD, 16));
 		
+		//receive logo picture
+		image = logoInit();
+		JLabel wIcon = new JLabel(new ImageIcon(image));
+		JPanel wIconPane = new JPanel();
+		wIconPane.add(wIcon);
+		wIcon.setLocation(10, (WINDOW_HEIGHT) - wIcon.getHeight());
+		
 		//Grid for the entire Main Window. "" represents blank grid spaces.
 		// grid adds left to right, top to bottom in a 3x3 grid. 1 2 3
 		//                                                       4 5 6
@@ -164,7 +177,7 @@ public class Student extends JFrame implements ActionListener {
 		getContentPane().add(dropdownBoxes);
 		getContentPane().add(classButtons);
 		getContentPane().add(scrollableList);
-		getContentPane().add(new JLabel(""));
+		getContentPane().add(wIconPane);
 		getContentPane().add(submitStep);
 		getContentPane().add(saveExitButtons);
 
@@ -428,6 +441,19 @@ public class Student extends JFrame implements ActionListener {
 		}
 
 		return stringList;
+	}
+	
+	private BufferedImage logoInit(){
+		String relation = System.getProperty("user.dir") + "//Database//images";
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File(relation + "//Logo.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return image;
+		
 	}
 
 }
